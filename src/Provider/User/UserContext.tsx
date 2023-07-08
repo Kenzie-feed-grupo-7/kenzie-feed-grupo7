@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { api } from "../../Services/api";
 import { IUserContext, IUserProviderProps, IUser, IUserRegisterResponse, IUserLoginResponse } from "./@types";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TRegisterForm } from "../../Pages/Register/registerFormSchema";
 import { toast } from "react-toastify";
 import { TLoginForm } from "../../Pages/Login/loginFormSchema";
