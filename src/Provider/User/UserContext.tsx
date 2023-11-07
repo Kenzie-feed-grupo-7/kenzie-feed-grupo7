@@ -49,6 +49,9 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
         formData
       );
       toast.success("Cadastro realizado com sucesso!");
+
+      console.log(data);
+
       navigate("/");
     } catch (error) {
       toast.error("Ops! Algo deu errado");
