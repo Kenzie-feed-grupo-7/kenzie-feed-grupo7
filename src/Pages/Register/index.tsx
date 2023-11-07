@@ -8,9 +8,8 @@ import { BackButton } from "./style";
 import { Link } from "react-router-dom";
 import { Footer } from "../../Components/Footer";
 import { FormButton, FormContainer, FormGrid } from "./style";
-import { Header } from "../../Components/Header";
-import { Container } from "../../Styles/global";
 import { TextTwo, TitleTwo } from "../../Styles/typography";
+import { Container } from "../../Styles/global";
 
 export const Register = () => {
   const {

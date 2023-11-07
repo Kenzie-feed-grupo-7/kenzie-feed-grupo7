@@ -10,7 +10,10 @@ import iconLikePic from "../../assets/iconlike.svg";
 import iconLikeFilledPic from "../../assets/iconlikefilled.png";
 
 export const InternalPage = () => {
-  const userId = JSON.parse(localStorage.getItem("@USERID")!);
+  const userId = JSON.parse(localStorage.getItem("@USERID")!) as number;
+  // const storedUserId = localStorage.getItem("@USERID");
+  // const userId: string | null = storedUserId ? JSON.parse(storedUserId) : null;
+
   const { posts, postInternal, postLikes, postLikesDelete, setPostInternal } =
     useContext(PostContext);
   const [isLike, setIsLike] = useState(false);
@@ -25,11 +28,16 @@ export const InternalPage = () => {
   }, [postInternal]);
 
   useEffect(() => {
-    setLikeIcon(isLike ? iconLikeFilledPic : iconLikePic)
+    setLikeIcon(isLike ? iconLikeFilledPic : iconLikePic);
   }, [isLike]);
 
+  // const checkLike = () => {
+  //   return postInternal?.likes?.some((like) => like.userId === userId);
+  // };
   const checkLike = () => {
-    return postInternal?.likes?.some((like) => like.userId === userId);
+    return postInternal?.likes?.some(
+      (like: { userId: number }) => like.userId === userId
+    );
   };
 
   const likeOrUnlike = () => {

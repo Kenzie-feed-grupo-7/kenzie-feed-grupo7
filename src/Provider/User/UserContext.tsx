@@ -1,6 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import { api } from "../../Services/api";
-import { IUserContext, IUserProviderProps, IUser, IUserRegisterResponse, IUserLoginResponse } from "./@types";
+import {
+  IUserContext,
+  IUserProviderProps,
+  IUser,
+  IUserRegisterResponse,
+  IUserLoginResponse,
+} from "./@types";
 import { useNavigate } from "react-router-dom";
 import { TRegisterForm } from "../../Pages/Register/registerFormSchema";
 import { toast } from "react-toastify";
@@ -12,34 +18,30 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
   const [userLogged, setUserLogged] = useState<IUser | null>(null);
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    const token = localStorage.getItem("@TOKEN")
-    const userId = localStorage.getItem("@USERID")
-    if(token){
-    const loadUser = async () => {
+    const token = localStorage.getItem("@TOKEN");
+    const userId = localStorage.getItem("@USERID");
+    if (token) {
+      const loadUser = async () => {
+        try {
+          const { data } = await api.get(`/users/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-            try {
-              const { data } = await api.get(`/users/${userId}`, {
-                    headers: {
-                    Authorization: `Bearer ${token}`,
-                    },
-                });
-        
-                setUserLogged(data)
-                navigate("/dashboard")
-            } catch (error) {
-                
-            }
-        }
-        loadUser()
+          setUserLogged(data);
+          navigate("/dashboard");
+        } catch (error) {}
+      };
+      loadUser();
     }
-}, [])
+  }, []);
 
-const access = () =>{
-userLogged ? navigate("/dashboard") : navigate("/")
+  const access = () => {
+    userLogged ? navigate("/dashboard") : navigate("/");
+  };
 
-}
   const userRegister = async (formData: TRegisterForm) => {
     try {
       const { data } = await api.post<IUserRegisterResponse>(
@@ -52,6 +54,7 @@ userLogged ? navigate("/dashboard") : navigate("/")
       toast.error("Ops! Algo deu errado");
     }
   };
+
   const userLogin = async (formData: TLoginForm) => {
     try {
       const { data } = await api.post<IUserLoginResponse>("/login", formData);
@@ -65,14 +68,12 @@ userLogged ? navigate("/dashboard") : navigate("/")
     }
   };
 
-
-    const userLogout = () => {
-     
-        localStorage.removeItem("@TOKEN");
-        localStorage.removeItem("@USERID");
-        setUserLogged(null)
-        navigate("/home")
-    }
+  const userLogout = () => {
+    localStorage.removeItem("@TOKEN");
+    localStorage.removeItem("@USERID");
+    setUserLogged(null);
+    navigate("/home");
+  };
 
   return (
     <UserContext.Provider

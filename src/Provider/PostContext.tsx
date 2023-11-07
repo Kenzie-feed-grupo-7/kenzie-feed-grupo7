@@ -1,11 +1,10 @@
-import { createContext, useEffect, useState} from "react";
+import { createContext, useEffect, useState } from "react";
 import {
   IPostNew,
   IPostContext,
   IPost,
   IUserProviderProps,
   ILikes,
-
 } from "./User/@types";
 import { api } from "../Services/api";
 import { toast } from "react-toastify";
@@ -18,9 +17,8 @@ export const NewProvider = ({ children }: IUserProviderProps) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [editing, setEditing] = useState<IPost>({} as IPost);
   const [creatOpen, setCreatOpen] = useState(false);
-  const [likes, setLikes] = useState<ILikes[]>([])
-  const [postInternal, setPostInternal] = useState<IPost>({} as IPost)
-
+  const [likes, setLikes] = useState<ILikes[]>([]);
+  const [postInternal, setPostInternal] = useState<IPost>({} as IPost);
 
   const navigate = useNavigate();
 
@@ -29,11 +27,9 @@ export const NewProvider = ({ children }: IUserProviderProps) => {
       try {
         const { data } = await api.get<IPost[]>("/posts?_embed=likes");
         setPosts(data);
-      } catch (error) {
-      }
+      } catch (error) {}
     };
     loadPost();
-  
   }, []);
 
   const addNewPost = async (formData: IPostNew) => {
@@ -62,8 +58,7 @@ export const NewProvider = ({ children }: IUserProviderProps) => {
       const newEddit = posts.filter((post) => post.id !== postId);
       setPosts([...newEddit, data]);
       navigate("/dashboard");
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const deletePost = async (postId: number) => {
@@ -76,26 +71,21 @@ export const NewProvider = ({ children }: IUserProviderProps) => {
       });
       const newList = posts.filter((post) => post.id !== postId);
       setPosts(newList);
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const editiPage = (post: IPost) => {
     setEditing(post);
     navigate("/eddidpost");
   };
-  
-  
-  const internalPages = async (id:number) =>{
-    
+
+  const internalPages = async (id: number) => {
     try {
- 
       const { data } = await api.get<IPost>(`posts/${id}?_embed=likes`);
 
       setPostInternal(data);
-      navigate(`/posts/${id}`)
-    } catch (error) {
-    }
+      navigate(`/posts/${id}`);
+    } catch (error) {}
   };
 
   const postLikes = async (object: ILikes) => {
@@ -106,14 +96,13 @@ export const NewProvider = ({ children }: IUserProviderProps) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setPostInternal({...postInternal})
+      setPostInternal({ ...postInternal });
       setLikes(data);
-  
     } catch (error) {
       toast.error("Ops! Algo deu errado.");
     }
   };
-  const postLikesDelete = async (id:number) => {
+  const postLikesDelete = async (id: number) => {
     try {
       const token = localStorage.getItem("@TOKEN");
       const { data } = await api.delete(`/likes/${id}`, {
@@ -122,7 +111,6 @@ export const NewProvider = ({ children }: IUserProviderProps) => {
         },
       });
       setLikes(data);
-  
     } catch (error) {
       // toast.error("Ops! Algo deu errado.");
     }

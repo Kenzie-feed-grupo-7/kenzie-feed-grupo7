@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { Container } from "./style";
 import { TitleThree, TextTwo } from "../../Styles/typography";
-import { IPost } from "../Provider/User/@types";
+import { IPost } from "../../Provider/User/@types";
+import { Container } from "./style";
 
 interface IPostCard {
   post: IPost;

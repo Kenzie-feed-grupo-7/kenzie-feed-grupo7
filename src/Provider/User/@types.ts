@@ -43,8 +43,6 @@ export interface ILikes {
 }
 export type IPostNew = Omit<IPost, "id" | "likes">;
 
-
-
 export interface IPostContext {
   newPost: IPostNew | null;
   addNewPost: (formData: IPostNew) => Promise<void>;
@@ -57,9 +55,9 @@ export interface IPostContext {
   creatOpen: boolean;
   setCreatOpen: React.Dispatch<React.SetStateAction<boolean>>;
   internalPages: (id: number) => Promise<void>;
-  postLikes: ({userId, postId}: ILikes ) => Promise<void>;
+  postLikes: ({ userId, postId }: ILikes) => Promise<void>;
   postLikesDelete: (id: number) => Promise<void>;
   postInternal: IPost;
   likes: ILikes[];
-  setPostInternal: React.Dispatch<SetStateAction<IPost>>
+  setPostInternal: React.Dispatch<SetStateAction<IPost>>;
 }
